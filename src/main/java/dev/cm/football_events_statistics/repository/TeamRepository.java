@@ -9,7 +9,5 @@ import java.util.Optional;
 @Repository
 public interface TeamRepository extends JpaRepository<TeamStatistics, Long> {
 
-    boolean existsByName(String name);
-
     Optional<TeamStatistics> getTeamStatisticsByName(String name);
 }
