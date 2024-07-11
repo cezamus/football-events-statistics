@@ -1,7 +1,6 @@
-package dev.cm.football_events_statistics.service.impl;
+package dev.cm.football_events_statistics.service;
 
 import dev.cm.football_events_statistics.dto.MessageDto;
-import dev.cm.football_events_statistics.service.MessageService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

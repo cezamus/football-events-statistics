@@ -1,6 +1,7 @@
-package dev.cm.football_events_statistics.service.impl;
+package dev.cm.football_events_statistics.service;
 
 import dev.cm.football_events_statistics.dto.GetStatisticsMessageDto;
+import dev.cm.football_events_statistics.exception.TeamNotFoundException;
 import dev.cm.football_events_statistics.model.LastResults;
 import dev.cm.football_events_statistics.model.TeamStatistics;
 import dev.cm.football_events_statistics.repository.TeamRepository;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,20 +45,18 @@ class StatisticsServiceImplTest {
 
     @Test
     void shouldCreateAndReturnClearStatisticsWhenGivenNewTeams() {
-        // given
-        when(teamRepository.getTeamStatisticsByName(any())).thenReturn(Optional.empty());
-        // when
-        List<String> statistics = statisticsService.process(GET_STATISTICS_MESSAGE);
-        //then
-        Assertions.assertEquals(List.of(TEAM_A_CLEAR_STATISTICS, TEAM_B_CLEAR_STATISTICS), statistics);
+        when(teamRepository.findTeamStatisticsByName(any())).thenReturn(Optional.empty());
+
+        assertThrows(TeamNotFoundException.class,
+                ()->statisticsService.process(GET_STATISTICS_MESSAGE));
     }
 
     @Test void shouldReturnStatisticsWhenGivenExistingTeams(){
         // given
         TEAM_A_STATISTICS.getLastResults().update(2);
         TEAM_B_STATISTICS.getLastResults().update(-2);
-        when(teamRepository.getTeamStatisticsByName(TEAM_A)).thenReturn(Optional.of(TEAM_A_STATISTICS));
-        when(teamRepository.getTeamStatisticsByName(TEAM_B)).thenReturn(Optional.of(TEAM_B_STATISTICS));
+        when(teamRepository.findTeamStatisticsByName(TEAM_A)).thenReturn(Optional.of(TEAM_A_STATISTICS));
+        when(teamRepository.findTeamStatisticsByName(TEAM_B)).thenReturn(Optional.of(TEAM_B_STATISTICS));
         // when
         List<String> statistics = statisticsService.process(GET_STATISTICS_MESSAGE);
         //then

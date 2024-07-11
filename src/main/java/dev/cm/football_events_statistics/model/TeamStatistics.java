@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class TeamStatistics {
 
     private static final String TEAM_SEQUENCE = "team_sequence";
+
     @Id
     @SequenceGenerator(
             name = TEAM_SEQUENCE,
@@ -19,12 +20,13 @@ public class TeamStatistics {
     )
     private Long id;
     private String name;
-    @OneToOne
-    private LastResults lastResults;
-    private int playedEventsNumber;
+    private int playedEventsCount;
     private int points;
     private int goalsScored;
     private int goalsConceded;
+
+    @Embedded
+    private LastResults lastResults;
 
     public TeamStatistics() {
     }
@@ -32,7 +34,7 @@ public class TeamStatistics {
     public TeamStatistics(String name) {
         this.name = name;
         this.lastResults = new LastResults();
-        playedEventsNumber = 0;
+        playedEventsCount = 0;
         points = 0;
         goalsScored = 0;
         goalsConceded = 0;
@@ -41,13 +43,13 @@ public class TeamStatistics {
     public TeamStatistics(
             String name,
             LastResults lastResults,
-            int playedEventsNumber,
+            int playedEventsCount,
             int points,
             int goalsScored,
             int goalsConceded) {
         this.name = name;
         this.lastResults = lastResults;
-        this.playedEventsNumber = playedEventsNumber;
+        this.playedEventsCount = playedEventsCount;
         this.points = points;
         this.goalsScored = goalsScored;
         this.goalsConceded = goalsConceded;
@@ -69,12 +71,12 @@ public class TeamStatistics {
         this.lastResults = lastResults;
     }
 
-    public int getPlayedEventsNumber() {
-        return playedEventsNumber;
+    public int getPlayedEventsCount() {
+        return playedEventsCount;
     }
 
-    public void setPlayedEventsNumber(int playedEventsNumber) {
-        this.playedEventsNumber = playedEventsNumber;
+    public void setPlayedEventsCount(int playedEventsCount) {
+        this.playedEventsCount = playedEventsCount;
     }
 
     public int getPoints() {
@@ -111,7 +113,7 @@ public class TeamStatistics {
 
     public String getSimplifiedStatistics() {
         final StringBuilder sb = new StringBuilder(name);
-        sb.append(" ").append(playedEventsNumber);
+        sb.append(" ").append(playedEventsCount);
         sb.append(" ").append(points);
         sb.append(" ").append(goalsScored);
         sb.append(" ").append(goalsConceded);
@@ -121,8 +123,8 @@ public class TeamStatistics {
     public String getStatistics() {
         final StringBuilder sb = new StringBuilder(name);
         sb.append(" ").append(lastResults.toString());
-        sb.append(" ").append(playedEventsNumber == 0 ? 0 : (float) (goalsScored + goalsConceded) / playedEventsNumber);
-        sb.append(" ").append(playedEventsNumber);
+        sb.append(" ").append(playedEventsCount == 0 ? 0 : (float) (goalsScored + goalsConceded) / playedEventsCount);
+        sb.append(" ").append(playedEventsCount);
         sb.append(" ").append(points);
         sb.append(" ").append(goalsScored);
         sb.append(" ").append(goalsConceded);

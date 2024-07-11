@@ -1,9 +1,8 @@
-package dev.cm.football_events_statistics.service.impl;
+package dev.cm.football_events_statistics.service;
 
 import dev.cm.football_events_statistics.dto.ResultMessageDto;
 import dev.cm.football_events_statistics.model.LastResults;
 import dev.cm.football_events_statistics.model.TeamStatistics;
-import dev.cm.football_events_statistics.repository.LastResultsRepository;
 import dev.cm.football_events_statistics.repository.TeamRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -37,8 +36,6 @@ class ResultServiceImplTest {
 
     @Mock
     private TeamRepository teamRepository;
-    @Mock
-    private LastResultsRepository lastResultsRepository;
 
     @InjectMocks
     private ResultServiceImpl resultService;
@@ -46,7 +43,7 @@ class ResultServiceImplTest {
     @Test
     void shouldCreateAndReturnStatisticsWhenGivenNewTeams() {
         // given
-        when(teamRepository.getTeamStatisticsByName(any())).thenReturn(Optional.empty());
+        when(teamRepository.findTeamStatisticsByName(any())).thenReturn(Optional.empty());
         // when
         List<String> statistics = resultService.process(RESULT_MESSAGE);
         //then
@@ -57,8 +54,8 @@ class ResultServiceImplTest {
     @Test
     void shouldUpdateAndReturnStatisticsWhenGivenExistingTeams() {
         // given
-        when(teamRepository.getTeamStatisticsByName(TEAM_A)).thenReturn(Optional.of(TEAM_A_AFTER_ONE_EVENT));
-        when(teamRepository.getTeamStatisticsByName(TEAM_B)).thenReturn(Optional.of(TEAM_B_AFTER_ONE_EVENT));
+        when(teamRepository.findTeamStatisticsByName(TEAM_A)).thenReturn(Optional.of(TEAM_A_AFTER_ONE_EVENT));
+        when(teamRepository.findTeamStatisticsByName(TEAM_B)).thenReturn(Optional.of(TEAM_B_AFTER_ONE_EVENT));
         // when
         List<String> statistics = resultService.process(RESULT_MESSAGE);
         //then

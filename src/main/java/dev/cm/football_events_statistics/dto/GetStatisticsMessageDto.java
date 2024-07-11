@@ -13,8 +13,8 @@ public class GetStatisticsMessageDto extends MessageDto {
 
     @JsonCreator
     public GetStatisticsMessageDto(
-            @JsonProperty("type") String type,
-            @JsonProperty("get_statistics") GetStatisticsDto data) {
+            @JsonProperty(value = "type", required = true) String type,
+            @JsonProperty(value = "get_statistics", required = true) GetStatisticsDto data) {
         super(type);
         this.data = data;
     }
@@ -28,7 +28,7 @@ public class GetStatisticsMessageDto extends MessageDto {
         private final List<String> teams;
 
         @JsonCreator
-        public GetStatisticsDto(@JsonProperty("teams") Collection<String> teams) {
+        public GetStatisticsDto(@JsonProperty(value = "teams",required = true) Collection<String> teams) {
             this.teams = teams != null ? new ArrayList<>(teams) : new ArrayList<>();
         }
 

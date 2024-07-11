@@ -2,22 +2,11 @@ package dev.cm.football_events_statistics.model;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table
-public class LastResults {
+import java.io.Serializable;
 
-    private static final String LAST_RESULT_SEQUENCE = "last_results_sequence";
-    @Id
-    @SequenceGenerator(
-            name = LAST_RESULT_SEQUENCE,
-            sequenceName = LAST_RESULT_SEQUENCE,
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = LAST_RESULT_SEQUENCE
-    )
-    private Long id;
+@Embeddable
+public class LastResults implements Serializable {
+
     private String lastResult;
     private String secondLastResult;
     private String thirdLResult;

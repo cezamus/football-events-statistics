@@ -1,9 +1,9 @@
-package dev.cm.football_events_statistics.service.impl;
+package dev.cm.football_events_statistics.service;
 
 import dev.cm.football_events_statistics.dto.GetStatisticsMessageDto;
+import dev.cm.football_events_statistics.exception.TeamNotFoundException;
 import dev.cm.football_events_statistics.model.TeamStatistics;
 import dev.cm.football_events_statistics.repository.TeamRepository;
-import dev.cm.football_events_statistics.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StatisticsServiceImpl implements MessageService<GetStatisticsMessageDto> {
+class StatisticsServiceImpl implements MessageService<GetStatisticsMessageDto> {
 
     private final TeamRepository teamRepository;
 
@@ -26,6 +26,9 @@ public class StatisticsServiceImpl implements MessageService<GetStatisticsMessag
     }
 
     private String getTeamStatistics(String teamName) {
-        return teamRepository.getTeamStatisticsByName(teamName).orElse(new TeamStatistics(teamName)).getStatistics();
+        TeamStatistics teamStatistics = teamRepository
+                .findTeamStatisticsByName(teamName)
+                .orElseThrow(() -> new TeamNotFoundException(teamName));
+        return teamStatistics.getStatistics();
     }
 }

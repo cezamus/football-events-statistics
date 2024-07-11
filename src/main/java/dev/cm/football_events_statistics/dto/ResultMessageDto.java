@@ -11,8 +11,8 @@ public class ResultMessageDto extends MessageDto {
 
     @JsonCreator
     public ResultMessageDto(
-            @JsonProperty("type") String type,
-            @JsonProperty("result") ResultDto data) {
+            @JsonProperty(value = "type", required = true) String type,
+            @JsonProperty(value = "result", required = true) ResultDto data) {
         super(type);
         this.data = data;
     }
@@ -29,10 +29,10 @@ public class ResultMessageDto extends MessageDto {
         private final int awayScore;
 
         @JsonCreator
-        public ResultDto(@JsonProperty("home_team") String homeTeam,
-                         @JsonProperty("away_team") String awayTeam,
-                         @JsonProperty("home_score") int homeScore,
-                         @JsonProperty("away_score") int awayScore) {
+        public ResultDto(@JsonProperty(value = "home_team", required = true) String homeTeam,
+                         @JsonProperty(value = "away_team", required = true) String awayTeam,
+                         @JsonProperty(value = "home_score", required = true) int homeScore,
+                         @JsonProperty(value = "away_score", required = true) int awayScore) {
             this.homeTeam = homeTeam;
             this.awayTeam = awayTeam;
             this.homeScore = homeScore;
