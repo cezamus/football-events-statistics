@@ -16,7 +16,7 @@ class StatisticsServiceImpl implements MessageService<GetStatisticsMessageDto> {
     private final TeamRepository teamRepository;
 
     @Autowired
-    public StatisticsServiceImpl(TeamRepository teamRepository) {
+    StatisticsServiceImpl(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
 

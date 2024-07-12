@@ -13,7 +13,6 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("The Football Events Statistics Application API")
-                        //.description()
                         .version("1.0")
                 );
     }

@@ -11,26 +11,19 @@ public class MessageServiceFactory {
 
     private final ResultServiceImpl resultService;
     private final StatisticsServiceImpl statisticsService;
-    private final UnrecognizedMessageServiceImpl unrecognizedMessageService;
 
     @Autowired
-    public MessageServiceFactory(
-            ResultServiceImpl resultService,
-            StatisticsServiceImpl statisticsService,
-            UnrecognizedMessageServiceImpl unrecognizedMessageService) {
+    public MessageServiceFactory(ResultServiceImpl resultService, StatisticsServiceImpl statisticsService) {
         this.resultService = resultService;
         this.statisticsService = statisticsService;
-        this.unrecognizedMessageService = unrecognizedMessageService;
     }
 
-
     public <T extends MessageDto> MessageService<T> getServiceFor(T messageDto) {
-        if(messageDto.getClass() == ResultMessageDto.class){
+        if (messageDto.getClass() == ResultMessageDto.class) {
             return (MessageService<T>) resultService;
         } else if (messageDto.getClass() == GetStatisticsMessageDto.class) {
             return (MessageService<T>) statisticsService;
-        }else {
-            return unrecognizedMessageService;
         }
+        throw new IllegalArgumentException("Unrecognized message class " + messageDto.getClass().getSimpleName());
     }
 }

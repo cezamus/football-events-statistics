@@ -31,8 +31,6 @@ class StatisticsServiceImplTest {
             = new TeamStatistics(TEAM_A, new LastResults(), 1, 3, 2, 0);
     private static final TeamStatistics TEAM_B_STATISTICS
             = new TeamStatistics(TEAM_B, new LastResults(), 1, 0, 0, 2);
-    private static final String TEAM_A_CLEAR_STATISTICS = "a  0.0 0 0 0 0";
-    private static final String TEAM_B_CLEAR_STATISTICS = "b  0.0 0 0 0 0";
     private static final String TEAM_A_STATISTICS_AFTER_ONE_EVENT = "a W 2.0 1 3 2 0";
     private static final String TEAM_B_STATISTICS_AFTER_ONE_EVENT = "b L 2.0 1 0 0 2";
 
@@ -46,12 +44,11 @@ class StatisticsServiceImplTest {
     @Test
     void shouldCreateAndReturnClearStatisticsWhenGivenNewTeams() {
         when(teamRepository.findTeamStatisticsByName(any())).thenReturn(Optional.empty());
-
-        assertThrows(TeamNotFoundException.class,
-                ()->statisticsService.process(GET_STATISTICS_MESSAGE));
+        assertThrows(TeamNotFoundException.class, () -> statisticsService.process(GET_STATISTICS_MESSAGE));
     }
 
-    @Test void shouldReturnStatisticsWhenGivenExistingTeams(){
+    @Test
+    void shouldReturnStatisticsWhenGivenExistingTeams() {
         // given
         TEAM_A_STATISTICS.getLastResults().update(2);
         TEAM_B_STATISTICS.getLastResults().update(-2);

@@ -3,16 +3,20 @@ package dev.cm.football_events_statistics.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
+
 
 @JsonTypeName("RESULT")
 public class ResultMessageDto extends MessageDto {
-
+    @Valid
     private final ResultDto data;
 
     @JsonCreator
     public ResultMessageDto(
             @JsonProperty(value = "type", required = true) String type,
-            @JsonProperty(value = "result", required = true) ResultDto data) {
+            @JsonProperty(value = "result", required = true)  ResultDto data) {
         super(type);
         this.data = data;
     }
@@ -23,16 +27,20 @@ public class ResultMessageDto extends MessageDto {
 
     public static class ResultDto {
 
+        @NotBlank
         private final String homeTeam;
+        @NotBlank
         private final String awayTeam;
+        @PositiveOrZero
         private final int homeScore;
+        @PositiveOrZero
         private final int awayScore;
 
         @JsonCreator
         public ResultDto(@JsonProperty(value = "home_team", required = true) String homeTeam,
                          @JsonProperty(value = "away_team", required = true) String awayTeam,
-                         @JsonProperty(value = "home_score", required = true) int homeScore,
-                         @JsonProperty(value = "away_score", required = true) int awayScore) {
+                         @JsonProperty(value = "home_score", required = true)  int homeScore,
+                         @JsonProperty(value = "away_score", required = true)  int awayScore) {
             this.homeTeam = homeTeam;
             this.awayTeam = awayTeam;
             this.homeScore = homeScore;

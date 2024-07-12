@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-class ResultServiceImpl implements MessageService<ResultMessageDto> { //todo: impl powinno być private
+class ResultServiceImpl implements MessageService<ResultMessageDto> {
 
     private final TeamRepository teamRepository;
 
     @Autowired
-    public ResultServiceImpl(TeamRepository teamRepository) {
+    ResultServiceImpl(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
 
@@ -24,24 +24,12 @@ class ResultServiceImpl implements MessageService<ResultMessageDto> { //todo: im
     @Transactional
     public List<String> process(ResultMessageDto message) {
         ResultMessageDto.ResultDto resultDto = message.getData();
-//        if (resultDto == null) {
-//            throw new InvalidResultException();
-//        }
         TeamStatistics homeTeam = getTeam(resultDto.getHomeTeam());
         TeamStatistics awayTeam = getTeam(resultDto.getAwayTeam());
         saveTeamStatistics(homeTeam, resultDto.getHomeScore(), resultDto.getAwayScore());
         saveTeamStatistics(awayTeam, resultDto.getAwayScore(), resultDto.getHomeScore());
         return List.of(homeTeam.getSimplifiedStatistics(), awayTeam.getSimplifiedStatistics());
     }
-
-    //todo: check if values make sense
-//    private void checkIfValid(ResultMessageDto.ResultDto resultDto){
-//        if (resultDto == null) {
-//            throw new InvalidResultException();
-//        }else {
-//
-//        }
-//    }
 
     private TeamStatistics getTeam(String teamName) {
         return teamRepository.findTeamStatisticsByName(teamName).orElse(new TeamStatistics(teamName));

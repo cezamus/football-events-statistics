@@ -28,7 +28,7 @@ public class GetStatisticsMessageDto extends MessageDto {
         private final List<String> teams;
 
         @JsonCreator
-        public GetStatisticsDto(@JsonProperty(value = "teams",required = true) Collection<String> teams) {
+        public GetStatisticsDto(@JsonProperty(value = "teams", required = true) Collection<String> teams) {
             this.teams = teams != null ? new ArrayList<>(teams) : new ArrayList<>();
         }
 
