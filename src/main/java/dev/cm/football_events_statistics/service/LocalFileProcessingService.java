@@ -31,7 +31,7 @@ public class LocalFileProcessingService implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        processAllAtDirectory("data/messages-task-description.txt");
+        processAllAtDirectory("data/messages.txt");
     }
 
     void processAllAtDirectory(String path) {
