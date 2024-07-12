@@ -3,12 +3,15 @@ package dev.cm.football_events_statistics.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.*;
 
 @JsonTypeName("GET_STATISTICS")
 public class GetStatisticsMessageDto extends MessageDto {
 
+    @Valid
     private final GetStatisticsDto data;
 
     @JsonCreator
@@ -25,7 +28,7 @@ public class GetStatisticsMessageDto extends MessageDto {
 
     public static class GetStatisticsDto {
 
-        private final List<String> teams;
+        private final List<@NotBlank String> teams;
 
         @JsonCreator
         public GetStatisticsDto(@JsonProperty(value = "teams", required = true) Collection<String> teams) {
